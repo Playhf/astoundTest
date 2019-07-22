@@ -48,7 +48,6 @@ class AddProductTestDataAttribute implements DataPatchInterface
      */
     public function apply()
     {
-        $this->moduleDataSetup->startSetup();
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
 
         $productTypes = [
@@ -65,6 +64,7 @@ class AddProductTestDataAttribute implements DataPatchInterface
             [
                 'type' => 'varchar',
                 'label' => 'Test Product Attribute Data',
+                'input' => 'text',
                 'global' => ScopedAttributeInterface::SCOPE_STORE,
                 'searchable' => false,
                 'filterable' => false,
@@ -75,8 +75,6 @@ class AddProductTestDataAttribute implements DataPatchInterface
                 'apply_to' => $productTypes
             ]
         );
-
-        $this->moduleDataSetup->endSetup();
     }
 
     /**

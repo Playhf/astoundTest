@@ -3,19 +3,24 @@
 declare(strict_types=1);
 namespace AstoundDRudenko\Install\Setup\Patch\Data;
 
-use Magento\Catalog\Model\Indexer\Product\Eav\Processor as AttributeProcessor;
-use Magento\Catalog\Model\Indexer\Product\Flat\Processor as ProductFlatProcessor;
+use AstoundDRudenko\Install\Model\TestAttribute\InstallReindexer;
 use Magento\Catalog\Model\Product;
 use Magento\Eav\Model\ConfigFactory as EavConfigFactory;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Eav\Setup\EavSetupFactory;
-use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\DB\Select;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use \AstoundDRudenko\Install\Model\TestAttribute\Config;
 use \Magento\Catalog\Model\ResourceModel\Product as ProductResource;
 use \Magento\Eav\Api\Data\AttributeInterface;
-use Psr\Log\LoggerInterface;
 
+/**
+ * Relocate test attribute data
+ * Class RelocateTestAttributeData
+ * @package AstoundDRudenko\Install\Setup\Patch\Data
+ */
 class RelocateTestAttributeData implements DataPatchInterface
 {
     /**
@@ -39,34 +44,30 @@ class RelocateTestAttributeData implements DataPatchInterface
     private $productResource;
 
     /**
-     * @var AttributeProcessor
+     * @var InstallReindexer
      */
-    private $attributeProcessor;
+    private $installReindexer;
 
     /**
-     * @var ProductFlatProcessor
+     * @var AdapterInterface
      */
-    private $productFlatProcessor;
+    private $connection;
 
     /**
-     * @var LoggerInterface
+     * @var AbstractAttribute
      */
-    private $logger;
+    private $testDataAttribute;
 
     /**
      * RelocateTestAttributeData constructor.
-     * @param LoggerInterface $logger
-     * @param AttributeProcessor $attributeProcessor
-     * @param ProductFlatProcessor $productFlatProcessor
+     * @param InstallReindexer $installReindexer
      * @param ProductResource $productResource
      * @param EavConfigFactory $eavConfigFactory
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param EavSetupFactory $eavSetupFactory
      */
     public function __construct(
-        LoggerInterface $logger,
-        AttributeProcessor $attributeProcessor,
-        ProductFlatProcessor $productFlatProcessor,
+        InstallReindexer $installReindexer,
         ProductResource $productResource,
         EavConfigFactory $eavConfigFactory,
         ModuleDataSetupInterface $moduleDataSetup,
@@ -76,88 +77,116 @@ class RelocateTestAttributeData implements DataPatchInterface
         $this->eavSetupFactory = $eavSetupFactory;
         $this->eavConfigFactory = $eavConfigFactory;
         $this->productResource = $productResource;
-        $this->attributeProcessor = $attributeProcessor;
-        $this->productFlatProcessor = $productFlatProcessor;
-        $this->logger = $logger;
+        $this->installReindexer = $installReindexer;
     }
 
     /**
-     * @return DataPatchInterface|void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * Do Upgrade
+     *
+     * @return void
      */
     public function apply()
     {
-        $this->moduleDataSetup->startSetup();
-
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
-        try {
-            $oldTable = $this->getTestDataAttribute()->getBackendTable();
 
-            $eavSetup->updateAttribute(
-                Product::ENTITY,
-                Config::TEST_ATTRIBUTE_CODE,
-                'backend_type',
-                'text'
-            );
+        $this->connection = $this->moduleDataSetup->getConnection();
+        $oldTable = $this->getTestDataAttribute()->getBackendTable();
 
-            $testDataAttribute = $this->getTestDataAttribute();
-            $attributeId = $testDataAttribute->getId();
-            $newTable = $testDataAttribute->getBackendTable();
+        $eavSetup->updateAttribute(
+            Product::ENTITY,
+            Config::TEST_ATTRIBUTE_CODE,
+            'backend_type',
+            'text'
+        );
 
-            $connection = $this->moduleDataSetup->getConnection();
+        $fields = [
+            AttributeInterface::ATTRIBUTE_ID,
+            Product::STORE_ID,
+            'value',
+            $this->productResource->getLinkField()
+        ];
 
-            $fields = [
-                AttributeInterface::ATTRIBUTE_ID,
-                Product::STORE_ID,
-                'value',
-                $this->productResource->getLinkField()
-            ];
+        $this->testDataAttribute = $this->getTestDataAttribute();
+        $newTable = $this->testDataAttribute->getBackendTable();
 
-            $select = $connection->select()
-                ->from(
-                    $this->moduleDataSetup->getTable($oldTable),
-                    $fields
-                )->where(
-                    AttributeInterface::ATTRIBUTE_ID . ' = ?', $attributeId
-                );
+        $select = $this->getAttributeDataSelect($oldTable, $fields);
 
-            $insertQuery = $connection->insertFromSelect(
-                $select,
-                $newTable,
-                $fields
-            );
-            $connection->query($insertQuery);
+        $this->insertAttributeData($select, $newTable, $fields);
+        $this->deleteAttributeData($select, $oldTable);
 
-            $deleteQuery = $connection->deleteFromSelect($select, $oldTable);
-            $connection->query($deleteQuery);
+        $productIds = $this->getUpdatedProductIds($newTable);
 
-            $productIdsSelect = $connection->select()
-                ->from(
-                    $this->moduleDataSetup->getTable($newTable),
-                    [$this->productResource->getLinkField()]
-                )->where(
-                    AttributeInterface::ATTRIBUTE_ID . ' = ?', $attributeId
-                );
-
-            $productIds = $connection->fetchCol($productIdsSelect);
-
-            $this->productFlatProcessor->reindexList($productIds);
-            $this->attributeProcessor->reindexList($productIds);
-
-        } catch (LocalizedException $e) {
-            $this->logger->critical(
-                $e->getMessage(),
-                ['exception' => $e]
-            );
-            throw $e;
-        }
-
-        $this->moduleDataSetup->endSetup();
+        $this->installReindexer->reindexProductAttributes($productIds);
     }
 
     /**
-     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * Query to update attribute data
+     * @param string $newTable
+     * @return array
+     */
+    private function getUpdatedProductIds(string $newTable) :array
+    {
+        $productIdsSelect = $this->connection->select()
+            ->from(
+                $this->moduleDataSetup->getTable($newTable),
+                [$this->productResource->getLinkField()]
+            )->where(
+                AttributeInterface::ATTRIBUTE_ID . ' = ?', $this->testDataAttribute->getId()
+            );
+
+        return $this->connection->fetchCol($productIdsSelect);
+    }
+
+    /**
+     * Query to delete attribute data
+     * @param Select $select
+     * @param string $oldTable
+     */
+    private function deleteAttributeData(Select $select, string $oldTable)
+    {
+        $deleteQuery = $this->connection->deleteFromSelect($select, $oldTable);
+        $this->connection->query($deleteQuery);
+    }
+
+    /**
+     * Get test attribute data select object
+     * @param string $oldTable
+     * @param array $fields
+     * @return Select
+     */
+    private function getAttributeDataSelect(string $oldTable, array $fields) : Select
+    {
+        $attributeId = $this->testDataAttribute->getId();
+
+        return $this->connection->select()
+            ->from(
+                $this->moduleDataSetup->getTable($oldTable),
+                $fields
+            )->where(
+                AttributeInterface::ATTRIBUTE_ID . ' = ?', $attributeId
+            );
+    }
+
+    /**
+     * Insert data in text table
+     * @param Select $select
+     * @param string $newTable
+     * @param array $fields
+     */
+    private function insertAttributeData(Select $select, string $newTable, array $fields) :void
+    {
+        $insertQuery = $this->connection->insertFromSelect(
+            $select,
+            $newTable,
+            $fields
+        );
+
+        $this->connection->query($insertQuery);
+    }
+
+    /**
+     * Retrieves test data attribute
+     * @return AbstractAttribute
      */
     private function getTestDataAttribute()
     {
