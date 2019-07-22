@@ -69,7 +69,7 @@ class AddBadgeProductAttribute implements DataPatchInterface, PatchRevertableInt
             Product::ENTITY,
             Config::BADGE_ATTRIBUTE_CODE,
             [
-                'type' => 'varchar',
+                'type' => 'text',
                 'label' => 'Product Badge',
                 'input' => 'multiselect',
                 'global' => ScopedAttributeInterface::SCOPE_WEBSITE,
