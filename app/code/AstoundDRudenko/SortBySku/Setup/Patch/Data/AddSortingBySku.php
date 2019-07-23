@@ -17,6 +17,9 @@ use \Magento\Framework\Setup\Patch\DataPatchInterface;
  */
 class AddSortingBySku implements DataPatchInterface
 {
+    /**
+     * Enabled value of attribute
+     */
     public const SORT_BY_ENABLED = 1;
 
     /**
@@ -49,8 +52,6 @@ class AddSortingBySku implements DataPatchInterface
      */
     public function apply()
     {
-        $this->moduleDataSetup->startSetup();
-
         /** @var CategorySetup $categorySetup */
         $categorySetup = $this->categorySetupFactory->create(['setup' => $this->moduleDataSetup]);
         $entityTypeId = $categorySetup->getEntityTypeId(Product::ENTITY);
@@ -61,8 +62,6 @@ class AddSortingBySku implements DataPatchInterface
             EavAttributeInterface::USED_FOR_SORT_BY,
             self::SORT_BY_ENABLED
         );
-
-        $this->moduleDataSetup->endSetup();
     }
 
     /**
