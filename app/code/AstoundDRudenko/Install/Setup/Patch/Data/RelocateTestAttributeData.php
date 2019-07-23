@@ -141,11 +141,14 @@ class RelocateTestAttributeData implements DataPatchInterface
      * Query to delete attribute data
      * @param Select $select
      * @param string $oldTable
+     * @return $this
      */
     private function deleteAttributeData(Select $select, string $oldTable)
     {
         $deleteQuery = $this->connection->deleteFromSelect($select, $oldTable);
         $this->connection->query($deleteQuery);
+
+        return $this;
     }
 
     /**
@@ -172,16 +175,18 @@ class RelocateTestAttributeData implements DataPatchInterface
      * @param Select $select
      * @param string $newTable
      * @param array $fields
+     * @return $this;
      */
-    private function insertAttributeData(Select $select, string $newTable, array $fields) :void
+    private function insertAttributeData(Select $select, string $newTable, array $fields)
     {
         $insertQuery = $this->connection->insertFromSelect(
             $select,
             $newTable,
             $fields
         );
-
         $this->connection->query($insertQuery);
+
+        return $this;
     }
 
     /**
