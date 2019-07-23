@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\Catalog\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
+        <arguments>
+            <argument name="prices" xsi:type="array">
+                <item name="previous_price" xsi:type="string">AstoundDRudenko\PriceBadge\Pricing\Price\Simple\PreviousPrice</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="AstoundDRudenko\Badge\Model\Attribute\Badge\Source">
+        <plugin name="extendAttributeOptions" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Source\ExtendOptions" />
+    </type>
+</config>
