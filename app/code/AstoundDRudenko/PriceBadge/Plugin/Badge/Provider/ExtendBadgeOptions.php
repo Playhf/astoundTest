@@ -12,7 +12,7 @@ use \AstoundDRudenko\PriceBadge\Model\PreviousPrice\Discount\Provider as Discoun
  * Class ExtendLabels
  * @package AstoundDRudenko\PriceBadge\Plugin\Badge\Provider
  */
-class ExtendLabels
+class ExtendBadgeOptions
 {
     /**
      * @var DiscountProvider
