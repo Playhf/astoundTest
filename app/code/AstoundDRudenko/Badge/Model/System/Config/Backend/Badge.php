@@ -21,6 +21,11 @@ use Magento\Framework\Math\Random as MathRandom;
 class Badge extends Value
 {
     /**
+     * Default serialized value in case of error
+     */
+    public const DEFAULT_SERIALIZED_VALUE = '[]';
+
+    /**
      * @var SerializerInterface
      */
     private $serializer;
@@ -92,7 +97,12 @@ class Badge extends Value
             $result[$badge] = $priority;
         }
 
-        $result = $this->serializer->serialize($result);
+        try {
+            $result = $this->serializer->serialize($result);
+        } catch (\InvalidArgumentException $e) {
+            $result = self::DEFAULT_SERIALIZED_VALUE;
+        }
+
         $this->setValue($result);
 
         return parent::beforeSave();
@@ -107,7 +117,11 @@ class Badge extends Value
     {
         $value = $this->getValue();
         if (is_string($value) && !empty($value)) {
-            $value = $this->serializer->unserialize($value);
+            try {
+                $value = $this->serializer->unserialize($value);
+            } catch (\InvalidArgumentException $e) {
+                $value = [];
+            }
         } else {
             $value = [];
         }

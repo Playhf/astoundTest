@@ -22,7 +22,7 @@ class Backend extends AbstractBackend
     public function beforeSave($object)
     {
         $attributeCode = $this->getAttribute()->getName();
-        if ($attributeCode == Config::BADGE_ATTRIBUTE_CODE) {
+        if ($attributeCode === Config::BADGE_ATTRIBUTE_CODE) {
             $data = $object->getData($attributeCode);
             if (!is_array($data)) {
                 $data = [];
@@ -44,7 +44,7 @@ class Backend extends AbstractBackend
     public function afterLoad($object)
     {
         $attributeCode = $this->getAttribute()->getName();
-        if ($attributeCode == Config::BADGE_ATTRIBUTE_CODE) {
+        if ($attributeCode === Config::BADGE_ATTRIBUTE_CODE) {
             $data = $object->getData($attributeCode);
             if ($data) {
                 if (!is_array($data)) {

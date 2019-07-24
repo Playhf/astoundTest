@@ -6,9 +6,9 @@
  */
 ?>
 
-<?php if ($block->getProductBadges()): ?>
+<?php if ($block->productBadgesEnabled() && $badges = $block->getProductBadges()): ?>
     <div class="product-item-badges-wrapper">
-        <?php foreach ($block->getProductBadges() as $badgeLabel): ?>
+        <?php foreach ($badges as $badgeLabel): ?>
             <div class="product-item-badge"><?= $badgeLabel ?></div>
         <?php endforeach; ?>
     </div>
