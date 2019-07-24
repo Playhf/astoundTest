@@ -114,7 +114,7 @@ class Provider
     {
         $options = $this->badgesSource->getAllOptions();
         foreach ($options as $option) {
-            $this->badgeOptions[$option['value']] = $option['label'];
+            $this->pushBadge($option);
         }
 
         return $this;
@@ -148,6 +148,18 @@ class Provider
     public function unsetCurrentProduct()
     {
         $this->currentProduct = null;
+
+        return $this;
+    }
+
+    /**
+     * Push new badge option
+     * @param array $option
+     * @return $this
+     */
+    public function pushBadge(array $option)
+    {
+        $this->badgeOptions[$option['value']] = $option['label'];
 
         return $this;
     }
