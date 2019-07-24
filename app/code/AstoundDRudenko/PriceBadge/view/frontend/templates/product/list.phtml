@@ -81,7 +81,7 @@ $previousPriceEnabled = $previousPriceViewModel->previousPriceEnabled();
                             <?php if ($viewModel->getProductBadges($_product)): ?>
                                 <div class="product-item-badges-wrapper">
                                     <?php foreach ($viewModel->getProductBadges($_product) as $badgeLabel): ?>
-                                        <div class="product-item-badge"><?= $badgeLabel ?></div>
+                                        <div class="product-item-badge"><?= __($badgeLabel) ?></div>
                                     <?php endforeach; ?>
                                 </div>
                             <?php endif; ?>
