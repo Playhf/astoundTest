@@ -40,21 +40,22 @@ class ExtendLabels
     /**
      * Extends product badge labels
      * @param Provider $subject
-     * @param array $options
+     * @param Provider $result
      * @return array
      */
-    public function afterInitBadgeOptions(Provider $subject, array $options) :array
+    public function afterInitBadgeOptions(Provider $subject, Provider $result) :Provider
     {
-        $product = $subject->getCurrentProduct();
-        $discount = $this->discountProvider->getDiscount($product);
-        if ($product && $discount) {
-            $discount = $this->discountProvider->getDiscount($product);
+        if ($this->config->previousPriceEnabled()) {
             $labelFormat = $this->config->getPriceLabelFormat();
 
-            $label = sprintf($labelFormat, $discount);
+            $badge = [
+                'value' => Config::PRICE_BADGE_OPTION_LABEL,
+                'label' => $labelFormat
+            ];
 
+            $subject->pushBadge($badge);
         }
 
-        return $options;
+        return $result;
     }
 }
