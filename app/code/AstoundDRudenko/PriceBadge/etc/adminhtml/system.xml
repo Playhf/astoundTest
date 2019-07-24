@@ -8,8 +8,9 @@
                     <label>Enable Product Price Badges</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="label" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="label" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Badge label</label>
+                    <comment>Take care that 'N%' using in store front as an expression</comment>
                 </field>
             </group>
         </section>

@@ -7,7 +7,7 @@
             </argument>
         </arguments>
     </virtualType>
-    <type name="AstoundDRudenko\Badge\Model\Attribute\Badge\Source">
-        <plugin name="extendAttributeOptions" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Source\ExtendOptions" />
+    <type name="AstoundDRudenko\Badge\Block\Adminhtml\Form\Field\Badge\Options\Renderer">
+        <plugin name="addPriceConfigBadgeOption" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Options\ExtendConfig" />
     </type>
 </config>
