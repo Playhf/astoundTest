@@ -100,6 +100,20 @@ class Provider
     }
 
     /**
+     * Initialize badge options
+     * @return $this
+     */
+    public function initBadgeOptions()
+    {
+        $options = $this->badgesSource->getAllOptions();
+        foreach ($options as $option) {
+            $this->badgeOptions[$option['value']] = $option['label'];
+        }
+
+        return $this;
+    }
+
+    /**
      * Generate an array of badges in convenient format
      * @param array $badges
      * @return array
@@ -129,20 +143,6 @@ class Provider
         $this->configPriority = $this->config->getBadgesPriority();
         $this->initBadgeOptions();
         $this->multipleBadges = $this->config->isMultipleBadgesEnabled();
-
-        return $this;
-    }
-
-    /**
-     * Initialize badge options
-     * @return $this
-     */
-    private function initBadgeOptions()
-    {
-        $options = $this->badgesSource->getAllOptions();
-        foreach ($options as $option) {
-            $this->badgeOptions[$option['value']] = $option['label'];
-        }
 
         return $this;
     }
