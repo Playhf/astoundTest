@@ -169,7 +169,7 @@ class Provider
      * @param array $badges
      * @return array
      */
-    private function getBadgesLabels(array $badges) :array
+    public function getBadgesLabels(array $badges) :array
     {
         $labels = [];
 
