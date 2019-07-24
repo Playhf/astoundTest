@@ -1,8 +1,6 @@
 <?php
 use Magento\Framework\App\Action\Action;
 
-?>
-<?php
 /**
  * Product list template
  *
@@ -13,8 +11,9 @@ use Magento\Framework\App\Action\Action;
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 
-/** @var AstoundDRudenko\Badge\ViewModel\Category\Product\Badge $viewModel */
-$viewModel = $block->getViewModel();
+/** @var AstoundDRudenko\Badge\ViewModel\Category\Product\Badge $badgeViewModel */
+$badgeViewModel = $block->getBadgeViewModel();
+$badgesEnabled = $badgeViewModel->productBadgesEnabled();
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
@@ -69,9 +68,9 @@ $viewModel = $block->getViewModel();
                             <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
                             <?= $block->getProductDetailsHtml($_product) ?>
 
-                            <?php if ($viewModel->getProductBadges($_product)): ?>
+                            <?php if ($badgesEnabled && $badges = $badgeViewModel->getProductBadges($_product)): ?>
                                 <div class="product-item-badges-wrapper">
-                                    <?php foreach ($viewModel->getProductBadges($_product) as $badgeLabel): ?>
+                                    <?php foreach ($badges as $badgeLabel): ?>
                                         <div class="product-item-badge"><?= $badgeLabel ?></div>
                                     <?php endforeach; ?>
                                 </div>

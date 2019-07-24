@@ -20,26 +20,6 @@ class Badge extends AbstractFieldArray
     private $optionsRenderer;
 
     /**
-     * Retrieves renderer
-     *
-     * @return Renderer|\Magento\Framework\View\Element\BlockInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    private function getBadgesOptionsRenderer()
-    {
-        if (!$this->optionsRenderer) {
-            $this->optionsRenderer = $this->getLayout()->createBlock(
-                Renderer::class,
-                'badge.options.renderer',
-                ['data' => ['is_render_to_js_template' => true]]
-            );
-            $this->optionsRenderer->setClass('badge_select');
-        }
-
-        return $this->optionsRenderer;
-    }
-
-    /**
      * Prepare config row ro render and add renderer
      *
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -70,5 +50,24 @@ class Badge extends AbstractFieldArray
             'option_extra_attrs',
             $optionExtraAttr
         );
+    }
+
+    /**
+     * Retrieves renderer
+     * @return Renderer
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    private function getBadgesOptionsRenderer() :Renderer
+    {
+        if (null === $this->optionsRenderer) {
+            $this->optionsRenderer = $this->getLayout()->createBlock(
+                Renderer::class,
+                'badge.options.renderer',
+                ['data' => ['is_render_to_js_template' => true]]
+            );
+            $this->optionsRenderer->setClass('badge_select');
+        }
+
+        return $this->optionsRenderer;
     }
 }

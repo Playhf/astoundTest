@@ -3,11 +3,13 @@
 declare(strict_types=1);
 namespace AstoundDRudenko\Badge\Block\Product\View\Info;
 
+use AstoundDRudenko\Badge\Model\Attribute\Badge\Config;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Block\Product\View;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Helper\Product;
 use Magento\Catalog\Model\ProductTypes\ConfigInterface;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Section\Options\Type\Area;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Json\EncoderInterface as JsonEncoder;
 use Magento\Framework\Locale\FormatInterface;
@@ -29,7 +31,13 @@ class Badges extends View
     private $badgesProvider;
 
     /**
+     * @var Config
+     */
+    private $badgeConfig;
+
+    /**
      * Badges constructor.
+     * @param Config $badgeConfig
      * @param Provider $badgesProvider
      * @param Context $context
      * @param EncoderInterface $urlEncoder
@@ -44,6 +52,7 @@ class Badges extends View
      * @param array $data
      */
     public function __construct(
+        Config $badgeConfig,
         Provider $badgesProvider,
         Context $context,
         EncoderInterface $urlEncoder,
@@ -71,14 +80,24 @@ class Badges extends View
             $data
         );
         $this->badgesProvider = $badgesProvider;
+        $this->badgeConfig = $badgeConfig;
     }
 
     /**
      * Retrieves product badges
-     * @return array|null
+     * @return array
      */
-    public function getProductBadges()
+    public function getProductBadges() :array
     {
         return $this->badgesProvider->getProductBadges($this->getProduct());
+    }
+
+    /**
+     * Is badges enabled
+     * @return bool
+     */
+    public function productBadgesEnabled() :bool
+    {
+        return $this->badgeConfig->isBadgesEnabled();
     }
 }

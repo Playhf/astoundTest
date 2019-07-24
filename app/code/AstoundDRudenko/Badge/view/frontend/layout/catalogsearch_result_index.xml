@@ -6,7 +6,7 @@
                 <argument name="template" xsi:type="string">AstoundDRudenko_Badge::product/list.phtml</argument>
             </action>
             <arguments>
-                <argument name="view_model" xsi:type="object">AstoundDRudenko\Badge\ViewModel\Category\Product\Badge</argument>
+                <argument name="badge_view_model" xsi:type="object">AstoundDRudenko\Badge\ViewModel\Category\Product\Badge</argument>
             </arguments>
         </referenceBlock>
     </body>

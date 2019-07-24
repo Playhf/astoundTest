@@ -5,6 +5,8 @@ namespace AstoundDRudenko\Badge\Setup\Patch\Data;
 
 use AstoundDRudenko\Badge\Model\Attribute\Badge\Backend;
 use AstoundDRudenko\Badge\Model\Attribute\Badge\Config;
+use Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory;
+use Magento\Eav\Model\Config as EavConfig;
 use Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface;
 use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Setup\EavSetupFactory;
@@ -23,6 +25,11 @@ use \AstoundDRudenko\Badge\Model\Attribute\Badge\Source;
 class AddBadgeProductAttribute implements DataPatchInterface, PatchRevertableInterface
 {
     /**
+     * Default sort order
+     */
+    public const DEFAULT_OPTION_SORT_ORDER = 0;
+
+    /**
      * @var ModuleDataSetupInterface
      */
     private $moduleDataSetup;
@@ -31,6 +38,11 @@ class AddBadgeProductAttribute implements DataPatchInterface, PatchRevertableInt
      * @var EavSetupFactory
      */
     private $eavSetupFactory;
+
+    /**
+     * @var EavConfig
+     */
+    private $eavConfig;
 
     /**
      * @var array
@@ -42,15 +54,18 @@ class AddBadgeProductAttribute implements DataPatchInterface, PatchRevertableInt
 
     /**
      * AddBadgeProductAttribute constructor.
+     * @param EavConfig $eavConfig
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param EavSetupFactory $eavSetupFactory
      */
     public function __construct(
+        EavConfig $eavConfig,
         ModuleDataSetupInterface $moduleDataSetup,
         EavSetupFactory $eavSetupFactory
     ) {
         $this->moduleDataSetup = $moduleDataSetup;
         $this->eavSetupFactory = $eavSetupFactory;
+        $this->eavConfig = $eavConfig;
     }
 
     /**
@@ -63,6 +78,16 @@ class AddBadgeProductAttribute implements DataPatchInterface, PatchRevertableInt
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
 
+        $this->createBadgeAttribute($eavSetup);
+    }
+
+    /**
+     * Create attribute
+     * @param EavSetup $eavSetup
+     * @return $this
+     */
+    private function createBadgeAttribute(EavSetup $eavSetup)
+    {
         $productTypes = implode(',', $this->productTypes);
 
         $eavSetup->addAttribute(
@@ -72,9 +97,10 @@ class AddBadgeProductAttribute implements DataPatchInterface, PatchRevertableInt
                 'type' => 'text',
                 'label' => 'Product Badge',
                 'input' => 'multiselect',
-                'global' => ScopedAttributeInterface::SCOPE_WEBSITE,
                 'source' => Source::class,
+                'global' => ScopedAttributeInterface::SCOPE_WEBSITE,
                 'sort_order' => 85,
+                'user_defined' => true,
                 'backend' => Backend::class,
                 'searchable' => true,
                 'filterable' => true,
@@ -83,6 +109,8 @@ class AddBadgeProductAttribute implements DataPatchInterface, PatchRevertableInt
                 'apply_to' => $productTypes
             ]
         );
+
+        return $this;
     }
 
     /**
