@@ -57,4 +57,16 @@ class Config
             ScopeInterface::SCOPE_STORE
         );
     }
+
+    /**
+     * Get price label format
+     * @return string|null
+     */
+    public function getPriceLabelFormat() :?string
+    {
+        return $this->scopeConfig->getValue(
+            self::CONFIG_PATH_LABEL,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
 }
