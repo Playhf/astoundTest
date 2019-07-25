@@ -11,6 +11,7 @@
         <plugin name="addPriceConfigBadgeOption" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Options\ExtendConfig" />
     </type>
     <type name="AstoundDRudenko\Badge\Model\Product\View\Badge\Provider">
-        <plugin name="addPriceBadgeLabelToProducts" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Provider\ExtendBadgeOptions" />
+        <plugin name="addPriceBadgeOption" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Provider\ExtendBadgeOptions" />
+        <plugin name="addPriceBadgeLabelToProducts" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Provider\ExtendLabels" />
     </type>
 </config>

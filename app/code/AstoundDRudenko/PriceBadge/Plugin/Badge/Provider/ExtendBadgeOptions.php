@@ -5,7 +5,6 @@ namespace AstoundDRudenko\PriceBadge\Plugin\Badge\Provider;
 
 use \AstoundDRudenko\Badge\Model\Product\View\Badge\Provider;
 use \AstoundDRudenko\PriceBadge\Model\Attribute\PreviousPrice\Config;
-use \AstoundDRudenko\PriceBadge\Model\PreviousPrice\Discount\Provider as DiscountProvider;
 
 /**
  * Add price label
@@ -15,11 +14,6 @@ use \AstoundDRudenko\PriceBadge\Model\PreviousPrice\Discount\Provider as Discoun
 class ExtendBadgeOptions
 {
     /**
-     * @var DiscountProvider
-     */
-    private $discountProvider;
-
-    /**
      * @var Config
      */
     private $config;
@@ -27,13 +21,9 @@ class ExtendBadgeOptions
     /**
      * ExtendLabels constructor.
      * @param Config $config
-     * @param DiscountProvider $discountProvider
      */
-    public function __construct(
-        Config $config,
-        DiscountProvider $discountProvider
-    ) {
-        $this->discountProvider = $discountProvider;
+    public function __construct(Config $config)
+    {
         $this->config = $config;
     }
 

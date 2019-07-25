@@ -33,9 +33,9 @@ class Provider
     /**
      * Get discount of product
      * @param Product $product
-     * @return int|float
+     * @return float
      */
-    public function getDiscount(Product $product)
+    public function getDiscount(Product $product) :float
     {
         return $this->discounts[$product->getId()] ?? self::DEFAULT_DISCOUNT;
     }

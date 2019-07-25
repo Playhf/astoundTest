@@ -15,8 +15,9 @@ use Magento\Framework\App\Action\Action;
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 
-/** @var AstoundDRudenko\Badge\ViewModel\Category\Product\Badge $viewModel */
-$viewModel = $block->getViewModel();
+/** @var AstoundDRudenko\Badge\ViewModel\Category\Product\Badge $badgeViewModel */
+$badgeViewModel = $block->getBadgeViewModel();
+$badgesEnabled = $badgeViewModel->productBadgesEnabled();
 /** @var AstoundDRudenko\PriceBadge\ViewModel\Product\PreviousPrice $previousPriceViewModel */
 $previousPriceViewModel = $block->getPreviousPriceViewModel();
 $previousPriceEnabled = $previousPriceViewModel->previousPriceEnabled();
@@ -78,9 +79,9 @@ $previousPriceEnabled = $previousPriceViewModel->previousPriceEnabled();
                                 <?= $previousPriceViewModel->getPreviousPriceHtml($_product, $block) ?>
                             <?php endif; ?>
 
-                            <?php if ($viewModel->getProductBadges($_product)): ?>
+                            <?php if ($badgesEnabled && $badges = $badgeViewModel->getProductBadges($_product)): ?>
                                 <div class="product-item-badges-wrapper">
-                                    <?php foreach ($viewModel->getProductBadges($_product) as $badgeLabel): ?>
+                                    <?php foreach ($badges as $badgeLabel): ?>
                                         <div class="product-item-badge"><?= __($badgeLabel) ?></div>
                                     <?php endforeach; ?>
                                 </div>
