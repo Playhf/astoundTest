@@ -64,6 +64,11 @@ class Config
     private $scopeConfig;
 
     /**
+     * @var array
+     */
+    private $badgesPriority;
+
+    /**
      * Data constructor.
      * @param SerializerInterface $serializer
      * @param ScopeConfigInterface $scopeConfig
@@ -106,23 +111,27 @@ class Config
      */
     public function getBadgesPriority() :array
     {
-        $result = [];
+        if (null === $this->badgesPriority) {
+            $result = [];
 
-        $configPriority = $this->scopeConfig->getValue(
-            self::CONFIG_PATH_BADGES_PRIORITY,
-            ScopeInterface::SCOPE_STORE
-        );
+            $configPriority = $this->scopeConfig->getValue(
+                self::CONFIG_PATH_BADGES_PRIORITY,
+                ScopeInterface::SCOPE_STORE
+            );
 
-        if ($configPriority) {
-            try {
-                $result = $this->serializer->unserialize($configPriority);
-            } catch (\InvalidArgumentException $e) {
-                $result = [];
+            if ($configPriority) {
+                try {
+                    $result = $this->serializer->unserialize($configPriority);
+                } catch (\InvalidArgumentException $e) {
+                    $result = [];
+                }
+
+                asort($result);
             }
 
-            asort($result);
+            $this->badgesPriority = $result;
         }
 
-        return $result;
+        return $this->badgesPriority;
     }
 }
