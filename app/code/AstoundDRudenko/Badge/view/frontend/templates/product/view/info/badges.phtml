@@ -6,10 +6,13 @@
  */
 ?>
 
-<?php if ($block->productBadgesEnabled() && $badges = $block->getProductBadges()): ?>
-    <div class="product-item-badges-wrapper">
-        <?php foreach ($badges as $badgeLabel): ?>
-            <div class="product-item-badge"><?= $badgeLabel ?></div>
-        <?php endforeach; ?>
-    </div>
+<?php if ($block->productBadgesEnabled()): ?>
+    <?php $badges = $block->getProductBadges() ?>
+    <?php if ($badges): ?>
+        <div class="product-item-badges-wrapper">
+            <?php foreach ($badges as $badgeLabel): ?>
+                <div class="product-item-badge"><?= $badgeLabel ?></div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 <?php endif; ?>

@@ -16,7 +16,7 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchRevertableInterface;
-use \AstoundDRudenko\Badge\Model\Attribute\Badge\Source;
+use AstoundDRudenko\Badge\Model\Attribute\Badge\Source;
 
 /**
  * Class AddBadgeProductAttribute

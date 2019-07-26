@@ -5,8 +5,8 @@ namespace AstoundDRudenko\Badge\Model\Attribute\Badge;
 
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
 use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
-use \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
-use \Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\CollectionFactory;
+use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
+use Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\CollectionFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**

@@ -68,12 +68,15 @@ $badgesEnabled = $badgeViewModel->productBadgesEnabled();
                             <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
                             <?= $block->getProductDetailsHtml($_product) ?>
 
-                            <?php if ($badgesEnabled && $badges = $badgeViewModel->getProductBadges($_product)): ?>
-                                <div class="product-item-badges-wrapper">
-                                    <?php foreach ($badges as $badgeLabel): ?>
-                                        <div class="product-item-badge"><?= $badgeLabel ?></div>
-                                    <?php endforeach; ?>
-                                </div>
+                            <?php if ($badgesEnabled): ?>
+                                <?php $badges = $badgeViewModel->getProductBadges($_product) ?>
+                                <?php if ($badges): ?>
+                                    <div class="product-item-badges-wrapper">
+                                        <?php foreach ($badges as $badgeLabel): ?>
+                                            <div class="product-item-badge"><?= $badgeLabel ?></div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
                             <?php endif; ?>
 
                             <div class="product-item-inner">

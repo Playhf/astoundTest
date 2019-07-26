@@ -3,7 +3,7 @@
 namespace AstoundDRudenko\Badge\Model\System\Config\Backend;
 
 use Magento\Framework\App\Cache\TypeListInterface;
-use \Magento\Framework\App\Config\Value;
+use Magento\Framework\App\Config\Value;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\ResourceModel\AbstractResource;

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace AstoundDRudenko\Badge\Model\Attribute\Badge;
 
-use \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
+use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
 
 /**
  * Backend model for badge attribute

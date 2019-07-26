@@ -9,7 +9,6 @@ use Magento\Catalog\Block\Product\View;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Helper\Product;
 use Magento\Catalog\Model\ProductTypes\ConfigInterface;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Section\Options\Type\Area;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Json\EncoderInterface as JsonEncoder;
 use Magento\Framework\Locale\FormatInterface;
