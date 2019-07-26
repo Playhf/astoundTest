@@ -10,6 +10,14 @@
                     </item>
                 </item>
             </argument>
+            <argument name="configurable" xsi:type="array">
+                <item name="prices" xsi:type="array">
+                    <item name="previous_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">AstoundDRudenko\PriceBadge\Pricing\Render\ConfigurablePriceBox</item>
+                        <item name="render_template" xsi:type="string">AstoundDRudenko_PriceBadge::product/price/configurable/previous_price.phtml</item>
+                    </item>
+                </item>
+            </argument>
         </arguments>
     </referenceBlock>
 </layout>
