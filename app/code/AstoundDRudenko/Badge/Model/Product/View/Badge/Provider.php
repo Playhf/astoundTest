@@ -91,7 +91,8 @@ class Provider
                 $badges = [];
             }
 
-            $labels = $this->getBadgesLabels($badges);
+            $product->setBadges($badges);
+            $labels = $this->getBadgesLabels($product);
             $this->badges[$product->getId()] = $labels;
         }
 
@@ -126,12 +127,14 @@ class Provider
 
     /**
      * Generate an array of badges in convenient format
-     * @param array $badges
+     *
+     * @param Product $product
      * @return array
      */
-    public function getBadgesLabels(array $badges) :array
+    public function getBadgesLabels(Product $product): array
     {
         $labels = [];
+        $badges = $product->getBadges();
 
         usort($badges, [$this, 'sortBadgeLabels']);
         foreach ($badges as $badge) {
