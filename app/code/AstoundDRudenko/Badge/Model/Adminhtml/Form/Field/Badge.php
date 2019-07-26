@@ -3,8 +3,8 @@
 declare(strict_types=1);
 namespace AstoundDRudenko\Badge\Model\Adminhtml\Form\Field;
 
-use \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
-use \AstoundDRudenko\Badge\Block\Adminhtml\Form\Field\Badge\Options\Renderer;
+use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
+use AstoundDRudenko\Badge\Block\Adminhtml\Form\Field\Badge\Options\Renderer;
 
 /**
  * System config product badge priority form field

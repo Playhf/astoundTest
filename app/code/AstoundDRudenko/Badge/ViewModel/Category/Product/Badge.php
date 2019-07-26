@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace AstoundDRudenko\Badge\ViewModel\Category\Product;
 
 use AstoundDRudenko\Badge\Model\Attribute\Badge\Config;
-use \AstoundDRudenko\Badge\Model\Product\View\Badge\Provider;
+use AstoundDRudenko\Badge\Model\Product\View\Badge\Provider;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 

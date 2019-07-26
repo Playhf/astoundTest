@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace AstoundDRudenko\Badge\Model\Product\View\Badge;
 
-use AstoundDRudenko\Badge\Helper\Data as Helper;
 use AstoundDRudenko\Badge\Model\Attribute\Badge\Config;
 use AstoundDRudenko\Badge\Model\Attribute\Badge\Source;
 use Magento\Catalog\Model\Product;
@@ -49,11 +48,6 @@ class Provider
     private $badges = [];
 
     /**
-     * @var Product
-     */
-    private $currentProduct;
-
-    /**
      * @var bool
      */
     private $multipleBadges;
@@ -89,7 +83,6 @@ class Provider
     public function getProductBadges(Product $product) :array
     {
         if (!isset($this->badges[$product->getId()])) {
-            $this->setCurrentProduct($product);
             $badges = $product->getBadgeLabel();
 
             if (is_string($badges) && !empty($badges)) {
@@ -100,7 +93,6 @@ class Provider
 
             $labels = $this->getBadgesLabels($badges);
             $this->badges[$product->getId()] = $labels;
-            $this->unsetCurrentProduct();
         }
 
         return $this->badges[$product->getId()] ?? [];
@@ -116,38 +108,6 @@ class Provider
         foreach ($options as $option) {
             $this->pushBadge($option);
         }
-
-        return $this;
-    }
-
-    /**
-     * Set current product
-     * @param Product $product
-     * @return $this
-     */
-    public function setCurrentProduct(Product $product)
-    {
-        $this->currentProduct = $product;
-
-        return $this;
-    }
-
-    /**
-     * Retrieves current product
-     * @return Product|null
-     */
-    public function getCurrentProduct() : ?Product
-    {
-        return $this->currentProduct ?? null;
-    }
-
-    /**
-     * Unset current product
-     * @return $this
-     */
-    public function unsetCurrentProduct()
-    {
-        $this->currentProduct = null;
 
         return $this;
     }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace AstoundDRudenko\Badge\Block\Adminhtml\Form\Field\Badge\Options;
 
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
-use \Magento\Catalog\Api\ProductAttributeRepositoryInterface;
+use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Framework\View\Element\Html\Select;
-use \AstoundDRudenko\Badge\Model\Attribute\Badge\Config;
-use \Magento\Framework\View\Element\Context;
+use Magento\Framework\View\Element\Html\Select;
+use AstoundDRudenko\Badge\Model\Attribute\Badge\Config;
+use Magento\Framework\View\Element\Context;
 
 /**
  * Class Renderer
