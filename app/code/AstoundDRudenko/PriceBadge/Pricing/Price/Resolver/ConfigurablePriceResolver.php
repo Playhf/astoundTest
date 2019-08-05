@@ -1,11 +1,18 @@
 <?php
 
-
+declare(strict_types=1);
 namespace AstoundDRudenko\PriceBadge\Pricing\Price\Resolver;
 
 use Magento\ConfigurableProduct\Pricing\Price\LowestPriceOptionsProviderInterface;
 use Magento\ConfigurableProduct\Pricing\Price\PriceResolverInterface;
+use Magento\Framework\Pricing\SaleableInterface;
 
+/**
+ * Previous price resolver
+ *
+ * Class ConfigurablePriceResolver
+ * @package AstoundDRudenko\PriceBadge\Pricing\Price\Resolver
+ */
 class ConfigurablePriceResolver implements PriceResolverInterface
 {
     /**
@@ -19,6 +26,7 @@ class ConfigurablePriceResolver implements PriceResolverInterface
 
     /**
      * ConfigurablePriceResolver constructor.
+     *
      * @param PriceResolverInterface $priceResolver
      * @param LowestPriceOptionsProviderInterface $lowestPriceOptionsProvider
      */
@@ -30,7 +38,10 @@ class ConfigurablePriceResolver implements PriceResolverInterface
         $this->priceResolver = $priceResolver;
     }
 
-    public function resolvePrice(\Magento\Framework\Pricing\SaleableInterface $product)
+    /**
+     * @inheritDoc
+     */
+    public function resolvePrice(SaleableInterface $product): float
     {
         $price = null;
 
@@ -39,6 +50,6 @@ class ConfigurablePriceResolver implements PriceResolverInterface
             $price = isset($price) ? min($price, $productPrice) : $productPrice;
         }
 
-        return (float)$price;
+        return $price;
     }
 }

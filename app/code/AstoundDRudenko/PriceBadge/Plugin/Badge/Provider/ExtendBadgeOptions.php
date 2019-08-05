@@ -8,6 +8,7 @@ use \AstoundDRudenko\PriceBadge\Model\Attribute\PreviousPrice\Config;
 
 /**
  * Add price label
+ *
  * Class ExtendLabels
  * @package AstoundDRudenko\PriceBadge\Plugin\Badge\Provider
  */
@@ -29,11 +30,12 @@ class ExtendBadgeOptions
 
     /**
      * Extends product badge labels
+     *
      * @param Provider $subject
      * @param Provider $result
      * @return array
      */
-    public function afterInitBadgeOptions(Provider $subject, Provider $result) :Provider
+    public function afterInitBadgeOptions(Provider $subject, Provider $result): Provider
     {
         if ($this->config->previousPriceEnabled()) {
             $labelFormat = $this->config->getPriceLabelFormat();

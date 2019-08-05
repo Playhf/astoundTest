@@ -5,9 +5,6 @@
             <action method="setTemplate" ifconfig="catalog/price_badge/active">
                 <argument name="template" xsi:type="string">AstoundDRudenko_PriceBadge::product/list.phtml</argument>
             </action>
-            <arguments>
-                <argument name="previous_price_view_model" xsi:type="object">AstoundDRudenko\PriceBadge\ViewModel\Product\PreviousPrice</argument>
-            </arguments>
         </referenceBlock>
     </body>
 </page>

@@ -8,6 +8,7 @@ use Magento\Store\Model\ScopeInterface;
 
 /**
  * Simple config provider for attribute
+ *
  * Class Config
  * @package AstoundDRudenko\PriceBadge\Model\Attribute\PreviousPrice
  */
@@ -48,9 +49,10 @@ class Config
 
     /**
      * Is previous price output enabled
+     *
      * @return bool
      */
-    public function previousPriceEnabled() :bool
+    public function previousPriceEnabled(): bool
     {
         return $this->scopeConfig->isSetFlag(
             self::CONFIG_PATH_ENABLED,
@@ -60,9 +62,10 @@ class Config
 
     /**
      * Get price label format
-     * @return string|null
+     *
+     * @return string
      */
-    public function getPriceLabelFormat() :?string
+    public function getPriceLabelFormat(): string
     {
         return $this->scopeConfig->getValue(
             self::CONFIG_PATH_LABEL,

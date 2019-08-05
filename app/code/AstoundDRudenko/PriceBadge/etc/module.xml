@@ -4,6 +4,7 @@
         <sequence>
             <module name="Magento_Eav"/>
             <module name="Magento_Catalog"/>
+            <module name="Magento_Swatches" />
             <module name="AstoundDRudenko_Badge" />
         </sequence>
     </module>

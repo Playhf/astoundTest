@@ -5,6 +5,12 @@ namespace AstoundDRudenko\PriceBadge\Model\PreviousPrice\Discount;
 
 use \Magento\Catalog\Model\Product;
 
+/**
+ * Previous prices discount provider
+ *
+ * Class Provider
+ * @package AstoundDRudenko\PriceBadge\Model\PreviousPrice\Discount
+ */
 class Provider
 {
     /**
@@ -19,6 +25,7 @@ class Provider
 
     /**
      * Set discount of product
+     *
      * @param Product $product
      * @param float $value
      * @return $this
@@ -32,10 +39,11 @@ class Provider
 
     /**
      * Get discount of product
+     *
      * @param Product $product
      * @return float
      */
-    public function getDiscount(Product $product) :float
+    public function getDiscount(Product $product): float
     {
         return $this->discounts[$product->getId()] ?? self::DEFAULT_DISCOUNT;
     }

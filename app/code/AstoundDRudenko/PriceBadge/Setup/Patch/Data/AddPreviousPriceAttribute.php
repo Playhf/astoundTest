@@ -3,7 +3,6 @@
 declare(strict_types=1);
 namespace AstoundDRudenko\PriceBadge\Setup\Patch\Data;
 
-
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Attribute\Backend\Price;
 use Magento\Catalog\Model\Product\Type;
@@ -17,6 +16,7 @@ use AstoundDRudenko\PriceBadge\Model\Attribute\PreviousPrice\Config;
 
 /**
  * Add previous price attribute
+ *
  * Class AddPreviousPriceAttribute
  * @package AstoundDRudenko\PriceBadge\Setup\Patch\Data
  */

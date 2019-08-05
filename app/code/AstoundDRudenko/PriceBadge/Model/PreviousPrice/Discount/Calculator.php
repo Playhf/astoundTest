@@ -3,12 +3,12 @@
 declare(strict_types=1);
 namespace AstoundDRudenko\PriceBadge\Model\PreviousPrice\Discount;
 
-use AstoundDRudenko\PriceBadge\Pricing\Price\Simple\PreviousPrice;
-use AstoundDRudenko\PriceBadge\Pricing\Render\SimplePriceBox;
+use Magento\Catalog\Model\Product;
 use Magento\Catalog\Pricing\Price\FinalPrice;
 
 /**
  * Discount calculator of difference between final and previous price
+ *
  * @package AstoundDRudenko\PriceBadge\Model\PreviousPrice\Discount
  */
 class Calculator
@@ -29,15 +29,15 @@ class Calculator
 
     /**
      * Calculate discount
-     * @param SimplePriceBox $simplePriceBox
+     *
+     * @param Product $product
      * @param float $previousPrice
      * @return $this
      */
-    public function calculate(SimplePriceBox $simplePriceBox, float $previousPrice)
+    public function calculate(Product $product, float $previousPrice)
     {
-        $saleableItem = $simplePriceBox->getSaleableItem();
-        if (!$this->discountProvider->getDiscount($saleableItem)) {
-            $finalPrice = $simplePriceBox->getPriceType(FinalPrice::PRICE_CODE)
+        if (!$this->discountProvider->getDiscount($product)) {
+            $finalPrice = $product->getPriceInfo()->getPrice(FinalPrice::PRICE_CODE)
                 ->getAmount()
                 ->getValue();
 
@@ -47,8 +47,9 @@ class Calculator
                 $discount = round(($subtract / $previousPrice) * 100);
             }
 
-            $this->discountProvider->setDiscount($saleableItem, $discount);
+            $this->discountProvider->setDiscount($product, $discount);
         }
+
         return $this;
     }
 }

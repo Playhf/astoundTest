@@ -1,0 +1,20 @@
+<?php
+/**
+ * Product info badges template
+ *
+ * @var $block AstoundDRudenko\Badge\Block\Product\View\Info\Badges
+ */
+
+$product = $block->getProduct()
+?>
+
+<?php if ($block->productBadgesEnabled()): ?>
+    <?php $badges = $block->getProductBadges() ?>
+    <?php if ($badges): ?>
+        <div class="product-item-badges-wrapper-<?= $product->getId() ?>">
+            <?php foreach ($badges as $code => $badgeLabel): ?>
+                <div class="product-item-badge<?= ($code === 'Price') ? '-price' : '' ?>"><?= $badgeLabel ?></div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

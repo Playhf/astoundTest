@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace AstoundDRudenko\PriceBadge\Pricing\Price\Configurable;
 
 use AstoundDRudenko\PriceBadge\Pricing\Price\Simple\PreviousPrice as SimplePreviousPrice;
-use Magento\ConfigurableProduct\Pricing\Price\LowestPriceOptionsProviderInterface;
 use Magento\ConfigurableProduct\Pricing\Price\PriceResolverInterface;
 use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Framework\Pricing\Price\AbstractPrice;
@@ -13,6 +12,7 @@ use Magento\Framework\Pricing\SaleableInterface;
 
 /**
  * Configurable previous price model
+ *
  * Class PreviousPrice
  * @package AstoundDRudenko\PriceBadge\Pricing\Price\Configurable
  */
@@ -52,7 +52,10 @@ class PreviousPrice extends AbstractPrice
         $this->priceResolver = $priceResolver;
     }
 
-    public function getValue()
+    /**
+     * @inheritDoc
+     */
+    public function getValue(): float
     {
         if (!isset($this->values[$this->product->getId()])) {
             $this->values[$this->product->getId()] = $this->priceResolver->resolvePrice($this->product);

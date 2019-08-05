@@ -8,6 +8,7 @@ use \AstoundDRudenko\PriceBadge\Model\Attribute\PreviousPrice\Config;
 
 /**
  * Previous price model
+ *
  * Class PreviousPrice
  * @package AstoundDRudenko\PriceBadge\Pricing\Price\Simple
  */
@@ -23,7 +24,7 @@ class PreviousPrice extends AbstractPrice
      *
      * @return float
      */
-    public function getValue() :float
+    public function getValue(): float
     {
         if ($this->value === null) {
             $price = $this->product->getPreviousPrice();

@@ -4,17 +4,17 @@
         <arguments>
             <argument name="default" xsi:type="array">
                 <item name="prices" xsi:type="array">
-                    <item name="previous_price" xsi:type="array">
-                        <item name="render_class" xsi:type="string">AstoundDRudenko\PriceBadge\Pricing\Render\SimplePriceBox</item>
-                        <item name="render_template" xsi:type="string">AstoundDRudenko_PriceBadge::product/price/previous_price.phtml</item>
+                    <item name="final_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">AstoundDRudenko\PriceBadge\Pricing\Render\Simple\FinalPriceBox\Extended</item>
+                        <item name="render_template" xsi:type="string">AstoundDRudenko_PriceBadge::product/price/final_price.phtml</item>
                     </item>
                 </item>
             </argument>
             <argument name="configurable" xsi:type="array">
                 <item name="prices" xsi:type="array">
-                    <item name="previous_price" xsi:type="array">
-                        <item name="render_class" xsi:type="string">AstoundDRudenko\PriceBadge\Pricing\Render\ConfigurablePriceBox</item>
-                        <item name="render_template" xsi:type="string">AstoundDRudenko_PriceBadge::product/price/configurable/previous_price.phtml</item>
+                    <item name="final_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">AstoundDRudenko\PriceBadge\Pricing\Render\Configurable\FinalPriceBox\Extended</item>
+                        <item name="render_template" xsi:type="string">AstoundDRudenko_PriceBadge::product/price/configurable/final_price.phtml</item>
                     </item>
                 </item>
             </argument>

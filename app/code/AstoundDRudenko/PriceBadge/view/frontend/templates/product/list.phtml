@@ -1,26 +1,19 @@
 <?php
 
-use AstoundDRudenko\Badge\ViewModel\Category\Product\Badge;
 use Magento\Framework\App\Action\Action;
 
-?>
-<?php
 /**
  * Product list template
  *
  * @var $block \Magento\Catalog\Block\Product\ListProduct
  */
-?>
-<?php
+
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 
 /** @var AstoundDRudenko\Badge\ViewModel\Category\Product\Badge $badgeViewModel */
 $badgeViewModel = $block->getBadgeViewModel();
 $badgesEnabled = $badgeViewModel->productBadgesEnabled();
-/** @var AstoundDRudenko\PriceBadge\ViewModel\Product\PreviousPrice $previousPriceViewModel */
-$previousPriceViewModel = $block->getPreviousPriceViewModel();
-$previousPriceEnabled = $previousPriceViewModel->previousPriceEnabled();
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
@@ -73,17 +66,17 @@ $previousPriceEnabled = $previousPriceViewModel->previousPriceEnabled();
                             </strong>
                             <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
                             <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+
                             <?= $block->getProductDetailsHtml($_product) ?>
 
-                            <?php if ($previousPriceEnabled): ?>
-                                <?= $previousPriceViewModel->getPreviousPriceHtml($_product, $block) ?>
-                            <?php endif; ?>
-
-                            <?php if ($badgesEnabled && $badges = $badgeViewModel->getProductBadges($_product)): ?>
-                                <div class="product-item-badges-wrapper">
-                                    <?php foreach ($badges as $badgeLabel): ?>
-                                        <div class="product-item-badge"><?= __($badgeLabel) ?></div>
-                                    <?php endforeach; ?>
+                            <?php if ($badgesEnabled): ?>
+                                <div class="product-item-badges-wrapper-<?= $_product->getId() ?>">
+                                    <?php $badges = $badgeViewModel->getProductBadges($_product) ?>
+                                    <?php if ($badges): ?>
+                                        <?php foreach ($badges as $code => $badgeLabel): ?>
+                                            <div class="product-item-badge<?= ($code === 'Price') ? '-price' : '' ?>"><?= $badgeLabel ?></div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
 
@@ -131,7 +124,7 @@ $previousPriceEnabled = $previousPriceViewModel->previousPriceEnabled();
         </ol>
     </div>
     <?= $block->getToolbarHtml() ?>
-    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+    <?php if (!$block->isRedirectToCartEnabled()): ?>
         <script type="text/x-magento-init">
         {
             "[data-role=tocart-form], .form.map.checkout": {
