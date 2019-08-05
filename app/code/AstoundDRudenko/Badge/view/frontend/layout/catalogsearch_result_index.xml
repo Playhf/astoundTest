@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="search_result_list">
+            <action method="setTemplate" ifconfig="catalog/product_badges/active">
+                <argument name="template" xsi:type="string">AstoundDRudenko_Badge::product/list.phtml</argument>
+            </action>
+            <arguments>
+                <argument name="badge_view_model" xsi:type="object">AstoundDRudenko\Badge\ViewModel\Category\Product\Badge</argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

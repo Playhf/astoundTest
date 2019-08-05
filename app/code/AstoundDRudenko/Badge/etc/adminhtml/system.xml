@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="catalog">
+            <group id="product_badges" translate="label" type="text" sortOrder="345" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Product Badges</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Product Badges</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_multiple" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Display Several Badges</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="priority" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Badges Priority</label>
+                    <frontend_model>AstoundDRudenko\Badge\Model\Adminhtml\Form\Field\Badge</frontend_model>
+                    <backend_model>AstoundDRudenko\Badge\Model\System\Config\Backend\Badge</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
