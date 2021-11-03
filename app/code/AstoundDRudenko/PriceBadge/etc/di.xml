@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\ConfigurableProduct\Pricing\Price\LowestPriceOptionsProviderInterface"
+                type="AstoundDRudenko\PriceBadge\Pricing\Price\Previous\LowestPriceOptionsProvider" />
+
+    <virtualType name="Magento\Catalog\Pricing\Price\Pool">
+        <arguments>
+            <argument name="prices" xsi:type="array">
+                <item name="previous_price" xsi:type="string">AstoundDRudenko\PriceBadge\Pricing\Price\Simple\PreviousPrice</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Magento\ConfigurableProduct\Pricing\Price\Pool">
+        <arguments>
+            <argument name="prices" xsi:type="array">
+                <item name="previous_price" xsi:type="string">AstoundDRudenko\PriceBadge\Pricing\Price\Configurable\PreviousPrice</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="ConfigurablePreviousPriceResolver" type="AstoundDRudenko\PriceBadge\Pricing\Price\Resolver\ConfigurablePriceResolver">
+        <arguments>
+            <argument name="priceResolver" xsi:type="object">AstoundDRudenko\PriceBadge\Pricing\Price\Resolver\PreviousPriceResolver</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="AstoundDRudenko\PriceBadge\Pricing\Price\Configurable\PreviousPrice">
+        <arguments>
+            <argument name="priceResolver" xsi:type="object">ConfigurablePreviousPriceResolver</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Block\Product\View">
+        <plugin name="addPreviousPriceOptionToJsonConfigPDP"
+                type="AstoundDRudenko\PriceBadge\Plugin\Product\Configurable\Price\Options\AddConfigPricesPdp" />
+    </type>
+
+    <type name="Magento\ConfigurableProduct\Model\Product\Type\Configurable\Variations\Prices">
+        <plugin name="addPreviousPriceOptionToJsonConfig"
+                type="AstoundDRudenko\PriceBadge\Plugin\Product\Configurable\Price\Options\AssignPreviousPriceOption" />
+    </type>
+
+    <type name="AstoundDRudenko\Badge\Block\Adminhtml\Form\Field\Badge\Options\Renderer">
+        <plugin name="addPriceConfigBadgeOption" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Options\ExtendConfig" />
+    </type>
+
+    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
+        <plugin name="addPreviousPricesToWidgetOptions" type="AstoundDRudenko\PriceBadge\Plugin\Product\Configurable\FillPreviousPrices" />
+    </type>
+
+    <type name="AstoundDRudenko\Badge\Model\Product\View\Badge\Provider">
+        <plugin name="addPriceBadgeOption" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Provider\ExtendBadgeOptions" />
+        <plugin name="addPriceBadgeLabelToProducts" type="AstoundDRudenko\PriceBadge\Plugin\Badge\Provider\ExtendLabels" />
+    </type>
+</config>
